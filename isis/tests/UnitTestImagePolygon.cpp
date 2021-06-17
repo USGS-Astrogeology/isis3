@@ -25,8 +25,8 @@ TEST_F(DefaultCube, UnitTestImagePolygonDefaultParams) {
   }
   ASSERT_EQ(4517, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
 
   std::vector<double> lons = {255.645377, 256.146301, 256.146301, 255.645377, 255.645377};
   std::vector<double> lats = {9.928429, 9.928429, 10.434929, 10.434929, 9.928429};
@@ -52,8 +52,8 @@ TEST_F(DefaultCube, UnitTestImagePolygonSubPoly) {
   }
   ASSERT_EQ(19, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
 
   std::vector<double> lons = {255.894656, 256.081313, 256.081313, 255.894656, 255.894656};
   std::vector<double> lats = {10.039260, 10.039260, 10.213952, 10.213952, 10.039260};
@@ -77,6 +77,7 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonCross) {
 
   ImagePolygon poly;
   try {
+    std::cout << "cross 1=====" << std::endl;
     poly.Create(crossCube, 100, 100);
   }
   catch(IException &e) {
@@ -85,13 +86,18 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonCross) {
   }
   ASSERT_EQ(40, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  std::cout << "cross 1=====" << std::endl;
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  std::cout << "cross 1.1 =====" << std::endl;
+
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
+  std::cout << "cross 2=====" << std::endl;
 
   std::vector<double> lons = {0.000000, 360.000000, 360.000000, 0.000000, 0.000000};
   std::vector<double> lats = {54.208706, 54.208706, 77.858556, 77.858556, 54.208706};
 
   geos::geom::CoordinateArraySequence coordArray = geos::geom::CoordinateArraySequence(*(boundary->getCoordinates()));
+  std::cout << "cross 3=====" << std::endl;
   for (size_t i = 0; i < coordArray.getSize(); i++) {
     EXPECT_NEAR(lons[i], coordArray.getAt(i).x, 1e-6);
     EXPECT_NEAR(lats[i], coordArray.getAt(i).y, 1e-6);
@@ -142,8 +148,8 @@ TEST_F(DefaultCube, UnitTestImagePolygonBoundary) {
 
   ASSERT_EQ(6, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
 
   std::vector<double> lons = {222.252869, 262.514561, 262.514561, 222.252869, 222.252869};
   std::vector<double> lats = {12.939325, 12.939325, 26.058469, 26.058469, 12.939325};
@@ -189,8 +195,8 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonMosaic) {
 
   ASSERT_EQ(16005, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
 
   std::vector<double> lons = {347.895055, 349.699395, 349.699395, 347.895055, 347.895055};
   std::vector<double> lats = {-43.643248, -43.643248, -42.323638, -42.323638, -43.643248};
@@ -251,8 +257,8 @@ TEST_F(DefaultCube, UnitTestImagePolygonOutlier) {
 
   ASSERT_EQ(234, poly.numVertices());
 
-  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope();
-  geos::geom::Point* centroid = poly.Polys()->getCentroid();
+  geos::geom::Geometry* boundary = poly.Polys()->getEnvelope().release();
+  geos::geom::Point* centroid = poly.Polys()->getCentroid().release();
 
   std::vector<double> lons = {194.815844, 269.631838, 269.631838, 194.815844, 194.815844};
   std::vector<double> lats = {-66.783492, -66.783492, 5.718545, 5.718545, -66.783492};
